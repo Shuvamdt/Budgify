@@ -149,7 +149,9 @@ const Navbar = () => {
             <li className="py-2 items">
               <a href="/my-account">My Account</a>
             </li>
-            <li className="py-2 items">Sign out</li>
+            <li className="py-2 items">
+              <a href="/signup">Sign in</a>
+            </li>
           </ul>
         </div>
       </div>
