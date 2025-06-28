@@ -57,7 +57,7 @@ const Navbar = () => {
             <div className="px-1">
               <img src="Logo.png" className="h-8 w-8 md:h-10 md:w-10" />
             </div>
-            <h1 className="font-1 text-2xl md:text-3xl">Bugit</h1>
+            <h1 className="font-1 text-2xl md:text-3xl">Budgify</h1>
           </a>
         </div>
 
