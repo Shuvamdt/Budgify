@@ -24,19 +24,12 @@ const Navbar = () => {
   };
 
   useGSAP(() => {
-    gsap.from("a", {
-      y: -10,
-      opacity: 0,
-      delay: 0.7,
-      duration: 1.2,
-      stagger: 0.3,
-    });
     tl.current = gsap.timeline({ paused: true });
     tl.current.to(mobMenu.current, {
-      x: -420,
+      x: -350,
       duration: 0.4,
     });
-    tl.current.from("#items", {
+    tl.current.from(".items", {
       opacity: 0,
       x: 150,
       duration: 0.8,
@@ -132,34 +125,31 @@ const Navbar = () => {
 
       <div
         ref={mobMenu}
-        className="absolute md:hidden font-1 flex flex-col px-5 w-140 top-0 h-full left-140 sm:left-190 z-5 bg-[#E85D04]"
+        className="fixed md:hidden font-1 flex flex-col px-5 w-90 top-0 h-full left-160 sm:left-200 z-20 bg-[#E85D04]"
       >
-        <div className="flex flex-col justify-end absolute top-3 right-115 z-10">
+        <div className="absolute top-3 right-55">
           <img
             src="close.png"
             alt="close icon"
-            id="close"
-            className="h-3 w-3"
+            className="h-3 w-3 cursor-pointer"
             onClick={toggleMenu}
           />
         </div>
-        <div className="absolute top-3 px-1 text-xs">
+        <div className="absolute top-10 px-1 text-sm">
           <ul className="flex flex-col items-start justify-center">
-            <li id="items" className="py-0.5">
+            <li className="py-1 items">
               <a href="/dashboard">Dashboard</a>
             </li>
-            <li id="items" className="py-0.5">
+            <li className="py-1 items">
               <a href="/expenses">Expenses</a>
             </li>
-            <li id="items" className="py-0.5">
+            <li className="py-1 items">
               <a href="/about">About</a>
             </li>
-            <li id="items" className="py-0.5">
+            <li className="py-1 items">
               <a href="/my-account">My Account</a>
             </li>
-            <li id="items" className="py-0.5">
-              Sign out
-            </li>
+            <li className="py-1 items">Sign out</li>
           </ul>
         </div>
       </div>
