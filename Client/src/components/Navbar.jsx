@@ -131,11 +131,11 @@ const Navbar = () => {
           <img
             src="close.png"
             alt="close icon"
-            className="h-3 w-3 cursor-pointer"
+            className="h-5 w-5 cursor-pointer"
             onClick={toggleMenu}
           />
         </div>
-        <div className="absolute top-10 px-1 text-md">
+        <div className="absolute top-15 px-1 text-md">
           <ul className="flex flex-col items-start justify-center">
             <li className="py-2 items">
               <a href="/dashboard">Dashboard</a>
