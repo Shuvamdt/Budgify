@@ -26,7 +26,7 @@ const Navbar = () => {
   useGSAP(() => {
     tl.current = gsap.timeline({ paused: true });
     tl.current.to(mobMenu.current, {
-      x: -370,
+      x: -450,
       duration: 0.4,
     });
     tl.current.from(".items", {
@@ -125,9 +125,9 @@ const Navbar = () => {
 
       <div
         ref={mobMenu}
-        className="fixed md:hidden font-1 flex flex-col px-5 w-100 top-0 h-full left-160 sm:left-200 z-20 bg-[#E85D04]"
+        className="fixed md:hidden font-1 flex flex-col px-5 w-120 sm:w-100 top-0 h-full left-160 sm:left-200 z-20 bg-[#E85D04]"
       >
-        <div className="absolute top-3 right-70">
+        <div className="absolute top-5 right-75">
           <img
             src="close.png"
             alt="close icon"
@@ -135,21 +135,21 @@ const Navbar = () => {
             onClick={toggleMenu}
           />
         </div>
-        <div className="absolute top-15 px-1 text-md">
+        <div className="absolute top-15 px-1 text-2xl">
           <ul className="flex flex-col items-start justify-center">
-            <li className="py-2 items">
+            <li className="py-2 px-2 items">
               <a href="/dashboard">Dashboard</a>
             </li>
-            <li className="py-2 items">
+            <li className="py-2 px-2 items">
               <a href="/expenses">Expenses</a>
             </li>
-            <li className="py-2 items">
+            <li className="py-2 px-2 items">
               <a href="/about">About</a>
             </li>
-            <li className="py-2 items">
+            <li className="py-2 px-2 items">
               <a href="/my-account">My Account</a>
             </li>
-            <li className="py-2 items">
+            <li className="py-2 px-2 items">
               <a href="/signup">Sign in</a>
             </li>
           </ul>
