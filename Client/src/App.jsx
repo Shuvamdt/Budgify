@@ -17,15 +17,17 @@ const App = () => {
           <img src="bg.gif" alt="Background" className="pt-10" />
         </div>
         <Navbar />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/expenses" element={<Expenses />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/my-account" element={<MyAccount />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
+        <div className="min-h-screen">
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/expenses" element={<Expenses />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/my-account" element={<MyAccount />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>
