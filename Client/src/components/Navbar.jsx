@@ -4,9 +4,7 @@ import { useGSAP } from "@gsap/react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [myAccount, setMyAccount] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const toggleAccount = () => setMyAccount(!myAccount);
 
   const nav1 = useRef();
   const nav2 = useRef();
@@ -92,12 +90,9 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex justify-evenly items-center px-2">
-          <img
-            src="user.png"
-            alt="User logo"
-            className="h-8 w-8"
-            onClick={toggleAccount}
-          />
+          <a href="/my-account">
+            <img src="user.png" alt="User logo" className="h-8 w-8" />
+          </a>
         </div>
 
         <div className="md:hidden px-5 absolute right-2 z-10">
@@ -109,19 +104,6 @@ const Navbar = () => {
           />
         </div>
       </div>
-
-      {myAccount && (
-        <div className="fixed flex flex-col justify-center items-center font-1 w-40 top-20 py-2 right-5 z-5 rounded-lg bg-[#FAA307] border border-[#DC2F02]">
-          <ul className="flex flex-col items-center justify-center">
-            <li className="py-2">
-              <a href="/my-account">My Account</a>
-            </li>
-            <li className="py-2">
-              <a href="/signup">Sign in</a>
-            </li>
-          </ul>
-        </div>
-      )}
 
       <div
         ref={mobMenu}

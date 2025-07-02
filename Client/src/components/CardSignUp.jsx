@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function CardSignUp() {
+export function CardSignUp(props) {
   return (
     <Card className="w-full max-w-sm text-[#03071E] bg-[#F48C06]">
       <CardHeader>
@@ -20,7 +20,9 @@ export function CardSignUp() {
           Enter your email below to create your account
         </CardDescription>
         <CardAction>
-          <Button variant="link">Sign In</Button>
+          <Button onClick={props.changeState} variant="link">
+            Sign In
+          </Button>
         </CardAction>
       </CardHeader>
       <CardContent>
