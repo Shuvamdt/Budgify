@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import LinkPlaid from "../components/LinkPlaid";
 
 const MyAccount = () => {
   return (
@@ -38,6 +39,14 @@ const MyAccount = () => {
             className="bg-[#E85D04] hover:bg-[#D00000] border-0"
           >
             Edit
+          </Button>
+        </li>
+        <li className="flex justify-center items-center my-4">
+          <Button
+            variant="outline"
+            className="bg-[#E85D04] hover:bg-[#D00000] border-0"
+          >
+            <LinkPlaid />
           </Button>
         </li>
         <li className="flex justify-center items-center">
