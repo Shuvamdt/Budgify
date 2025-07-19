@@ -1,5 +1,5 @@
 "use client";
-
+import { useState, useMemo, useEffect } from "react";
 import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart, Sector } from "recharts";
 
@@ -19,14 +19,6 @@ import {
 
 export const description = "A donut chart with an active sector";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "#6A040F" },
-  { browser: "safari", visitors: 200, fill: "#9D0208" },
-  { browser: "firefox", visitors: 187, fill: "#D00000" },
-  { browser: "edge", visitors: 173, fill: "#DC2F02" },
-  { browser: "other", visitors: 90, fill: "#E85D04" },
-];
-
 const chartConfig = {
   visitors: {
     label: "Visitors",
@@ -39,27 +31,52 @@ const chartConfig = {
     label: "Safari",
     color: "var(--chart-2)",
   },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
 };
 
-export function ChartPieDonutActive() {
+const currentDate = new Date();
+const endMonthName = currentDate.toLocaleString("default", { month: "long" });
+
+const startDate = new Date();
+startDate.setMonth(currentDate.getMonth() - 3);
+const startMonthName = startDate.toLocaleString("default", { month: "long" });
+
+export function ChartPieDonutActive({ data }) {
+  const [totalCredit, setTotalCredit] = useState(0);
+  const [totalDebit, setTotalDebit] = useState(0);
+  console.log(data);
+  useEffect(() => {
+    let credits = 0;
+    let debits = 0;
+    data.forEach((element) => {
+      const amt = element.amount;
+      if (amt > 0) {
+        credits += amt;
+      } else {
+        debits += Math.abs(amt);
+      }
+    });
+    setTotalDebit(debits);
+    setTotalCredit(credits);
+  }, [data]);
+
+  console.log(Math.floor(totalCredit));
+  console.log(totalDebit);
+
+  const chartData = useMemo(
+    () => [
+      { browser: "Debit", visitors: totalCredit, fill: "#6A040F" },
+      { browser: "Credit", visitors: totalDebit, fill: "#9D0208" },
+    ],
+    [totalCredit, totalDebit]
+  );
   return (
     <Card className="flex flex-col bg-[#FAA307] text-[#03071E]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut Active</CardTitle>
+        <CardTitle>Pie Chart - Debit/Credit</CardTitle>
         <CardDescription>
-          <p className="text-[#E85D04]">January - June 2024</p>
+          <p className="text-[#E85D04]">
+            {startMonthName}-{endMonthName}
+          </p>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 pb-0">
@@ -88,11 +105,11 @@ export function ChartPieDonutActive() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {/* <TrendingUp className="h-4 w-4" /> */}
         </div>
         <div className="text-muted-foreground leading-none">
           <p className="text-[#E85D04]">
-            Showing total visitors for the last 6 months
+            Showing transaction totals for the last 3 months
           </p>
         </div>
       </CardFooter>

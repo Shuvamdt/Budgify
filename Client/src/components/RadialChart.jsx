@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect, useState, useMemo } from "react";
 import { TrendingUp } from "lucide-react";
 import {
   Label,
@@ -33,13 +33,30 @@ const chartConfig = {
   },
 };
 
-export function ChartRadialText() {
+const currentDate = new Date();
+const endMonthName = currentDate.toLocaleString("default", { month: "long" });
+
+const startDate = new Date();
+startDate.setMonth(currentDate.getMonth() - 3);
+const startMonthName = startDate.toLocaleString("default", { month: "long" });
+
+export function ChartRadialText({ data }) {
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    let sum = 0;
+    data.forEach((element) => {
+      sum -= element.amount;
+    });
+    setTotal(sum);
+  }, [data]);
   return (
     <Card className="flex flex-col bg-[#FAA307] text-[#03071E]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Text</CardTitle>
+        <CardTitle>Radial Chart - Total Expenditure</CardTitle>
         <CardDescription>
-          <p className="text-[#E85D04]">January - June 2024</p>
+          <p className="text-[#E85D04]">
+            {startMonthName} - {endMonthName}
+          </p>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 pb-0">
@@ -76,17 +93,15 @@ export function ChartRadialText() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-[#03071E] text-4xl font-bold"
+                          className="fill-[#03071E] text-3xl font-bold"
                         >
-                          {chartData[0].visitors.toLocaleString()}
+                          ${total.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-[#6A040F]"
-                        >
-                          Visitors
-                        </tspan>
+                        ></tspan>
                       </text>
                     );
                   }
@@ -98,12 +113,12 @@ export function ChartRadialText() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
+        {/* <div className="flex items-center gap-2 leading-none font-medium">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
+        </div> */}
         <div className="text-muted-foreground leading-none">
           <p className="text-[#E85D04]">
-            Showing total visitors for the last 6 months
+            Showing total expenditure for the last 3 months
           </p>
         </div>
       </CardFooter>
