@@ -8,7 +8,6 @@ import Expenses from "./Pages/Expenses";
 import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
-import Test from "./Pages/Test";
 
 const App = () => {
   return (

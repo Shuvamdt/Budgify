@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import {
   Label,
@@ -21,14 +21,12 @@ import { ChartContainer } from "@/components/ui/chart";
 
 export const description = "A radial chart with text";
 
-const chartData = [{ browser: "safari", visitors: 200, fill: "#D00000" }];
-
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  savings: {
+    label: "Savings",
   },
-  safari: {
-    label: "Safari",
+  amount: {
+    label: "Amount",
     color: "var(--chart-2)",
   },
 };
@@ -37,7 +35,7 @@ const currentDate = new Date();
 const endMonthName = currentDate.toLocaleString("default", { month: "long" });
 
 const startDate = new Date();
-startDate.setMonth(currentDate.getMonth() - 3);
+startDate.setMonth(currentDate.getMonth() - 2);
 const startMonthName = startDate.toLocaleString("default", { month: "long" });
 
 export function ChartRadialText({ data }) {
@@ -49,10 +47,14 @@ export function ChartRadialText({ data }) {
     });
     setTotal(sum);
   }, [data]);
+  const chartData = useMemo(
+    () => [{ amount: "Total", savings: total, fill: "#D00000" }],
+    [total]
+  );
   return (
     <Card className="flex flex-col bg-[#FAA307] text-[#03071E]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Total Expenditure</CardTitle>
+        <CardTitle>Radial Chart - Total Savings</CardTitle>
         <CardDescription>
           <p className="text-[#E85D04]">
             {startMonthName} - {endMonthName}
@@ -78,7 +80,7 @@ export function ChartRadialText({ data }) {
               className="first:fill-[#E85D04] last:fill-[#FFBA08]"
               polarRadius={[86, 74]}
             />
-            <RadialBar dataKey="visitors" background cornerRadius={10} />
+            <RadialBar dataKey="savings" background cornerRadius={10} />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {

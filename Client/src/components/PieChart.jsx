@@ -20,15 +20,15 @@ import {
 export const description = "A donut chart with an active sector";
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  amount: {
+    label: "amount",
   },
-  chrome: {
-    label: "Chrome",
+  debit: {
+    label: "Debit",
     color: "var(--chart-1)",
   },
-  safari: {
-    label: "Safari",
+  credit: {
+    label: "Credit",
     color: "var(--chart-2)",
   },
 };
@@ -37,7 +37,7 @@ const currentDate = new Date();
 const endMonthName = currentDate.toLocaleString("default", { month: "long" });
 
 const startDate = new Date();
-startDate.setMonth(currentDate.getMonth() - 3);
+startDate.setMonth(currentDate.getMonth() - 2);
 const startMonthName = startDate.toLocaleString("default", { month: "long" });
 
 export function ChartPieDonutActive({ data }) {
@@ -50,22 +50,19 @@ export function ChartPieDonutActive({ data }) {
     data.forEach((element) => {
       const amt = element.amount;
       if (amt > 0) {
-        credits += amt;
+        debits += amt;
       } else {
-        debits += Math.abs(amt);
+        credits += Math.abs(amt);
       }
     });
-    setTotalDebit(debits);
-    setTotalCredit(credits);
+    setTotalDebit(credits);
+    setTotalCredit(debits);
   }, [data]);
-
-  console.log(Math.floor(totalCredit));
-  console.log(totalDebit);
 
   const chartData = useMemo(
     () => [
-      { browser: "Debit", visitors: totalCredit, fill: "#6A040F" },
-      { browser: "Credit", visitors: totalDebit, fill: "#9D0208" },
+      { type: "Debit", amount: totalCredit, fill: "#6A040F" },
+      { type: "Credit", amount: totalDebit, fill: "#D00000" },
     ],
     [totalCredit, totalDebit]
   );
@@ -91,8 +88,8 @@ export function ChartPieDonutActive({ data }) {
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              dataKey="amount"
+              nameKey="type"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={0}
@@ -104,9 +101,7 @@ export function ChartPieDonutActive({ data }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          {/* <TrendingUp className="h-4 w-4" /> */}
-        </div>
+        <div className="flex items-center gap-2 leading-none font-medium"></div>
         <div className="text-muted-foreground leading-none">
           <p className="text-[#E85D04]">
             Showing transaction totals for the last 3 months

@@ -23,15 +23,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useEffect, useMemo, useState } from "react";
 
 export const description = "A bar chart with a custom label";
 
-const chartData = [
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+const currentDate = new Date();
+const endMonthName = currentDate.toLocaleString("default", { month: "long" });
+
+const startDate = new Date();
+startDate.setMonth(currentDate.getMonth() - 2);
+const startMonthName = startDate.toLocaleString("default", { month: "long" });
 
 const chartConfig = {
   desktop: {
@@ -47,13 +48,97 @@ const chartConfig = {
   },
 };
 
+const month1 = new Date();
+month1.setMonth(currentDate.getMonth() - 2);
+const month2 = new Date();
+month2.setMonth(currentDate.getMonth() - 1);
+const month3 = new Date();
+month3.setMonth(currentDate.getMonth());
+
 export function ChartBarLabelCustom({ data }) {
+  const [month1Exps, setMonth1Exps] = useState(0);
+  const [month2Exps, setMonth2Exps] = useState(0);
+  const [month3Exps, setMonth3Exps] = useState(0);
+  const [month1Credit, setMonth1Credit] = useState(0);
+  const [month2Credit, setMonth2Credit] = useState(0);
+  const [month3Credit, setMonth3Credit] = useState(0);
+  let exp1 = 0,
+    exp2 = 0,
+    exp3 = 0,
+    cr1 = 0,
+    cr2 = 0,
+    cr3 = 0;
+  data.forEach((element) => {
+    const currMonth = parseInt(element.date.split("-")[1]) - 1;
+    if (currMonth == month1.getMonth()) {
+      if (element.amount < 0) {
+        cr1 += Math.abs(element.amount);
+      } else {
+        exp1 += element.amount;
+      }
+    } else if (currMonth == month2.getMonth()) {
+      if (element.amount < 0) {
+        cr2 += Math.abs(element.amount);
+      } else {
+        exp2 += element.amount;
+      }
+    } else {
+      if (element.amount < 0) {
+        cr3 += Math.abs(element.amount);
+      } else {
+        exp3 += element.amount;
+      }
+    }
+  });
+  useEffect(() => {
+    setMonth1Exps(exp1);
+    setMonth2Exps(exp2);
+    setMonth3Exps(exp3);
+    setMonth1Credit(cr1);
+    setMonth2Credit(cr2);
+    setMonth3Credit(cr3);
+  }, [exp1, exp2, exp3, cr1, cr2, cr3]);
+  const chartData = useMemo(
+    () => [
+      {
+        month: month1.toLocaleString("default", {
+          month: "long",
+        }),
+        debit: month1Exps,
+        credit: month1Credit,
+      },
+      {
+        month: month2.toLocaleString("default", {
+          month: "long",
+        }),
+        debit: month2Exps,
+        credit: month2Credit,
+      },
+      {
+        month: month3.toLocaleString("default", {
+          month: "long",
+        }),
+        debit: month3Exps,
+        credit: month3Credit,
+      },
+    ],
+    [
+      month1Exps,
+      month2Exps,
+      month3Exps,
+      month1Credit,
+      month2Credit,
+      month3Credit,
+    ]
+  );
   return (
     <Card className="bg-[#FAA307] text-[#03071E]">
       <CardHeader>
         <CardTitle>Bar Chart - Custom Label</CardTitle>
         <CardDescription>
-          <p className="text-[#E85D04]">January - June 2024</p>
+          <p className="text-[#E85D04]">
+            {startMonthName} - {endMonthName}
+          </p>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1">
@@ -69,12 +154,34 @@ export function ChartBarLabelCustom({ data }) {
               tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="desktop" type="number" hide />
+            <XAxis dataKey="credit" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="desktop" layout="vertical" fill="#D00000" radius={4}>
+
+            <Bar dataKey="credit" layout="vertical" fill="#370617" radius={4}>
+              <LabelList
+                dataKey="month"
+                position="insideLeft"
+                offset={8}
+                className="fill-[#DC2F02]"
+                fontSize={12}
+              />
+              <LabelList
+                dataKey="credit"
+                position="right"
+                offset={8}
+                className="fill-[#DC2F02]"
+                fontSize={12}
+              />
+            </Bar>
+            <XAxis dataKey="debit" type="number" hide />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <Bar dataKey="debit" layout="vertical" fill="#D00000" radius={4}>
               <LabelList
                 dataKey="month"
                 position="insideLeft"
@@ -83,7 +190,7 @@ export function ChartBarLabelCustom({ data }) {
                 fontSize={12}
               />
               <LabelList
-                dataKey="desktop"
+                dataKey="debit"
                 position="right"
                 offset={8}
                 className="fill-[#6A040F]"
