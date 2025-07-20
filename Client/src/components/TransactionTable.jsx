@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-const TransactionTable = () => {
+const TransactionTable = ({ data }) => {
   return (
     <div className="px-4 py-2 mx-4 my-4 bg-[#F48C06] rounded-2xl">
       <Table>
@@ -17,19 +17,21 @@ const TransactionTable = () => {
         </TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
+            <TableHead className="w-[100px]">Sl no.</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead>Subject</TableHead>
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
+          {data.map((element, idx) => (
+            <TableRow key={idx}>
+              <TableCell className="font-medium">{idx + 1}</TableCell>
+              <TableCell>{element.date}</TableCell>
+              <TableCell>{element.name}</TableCell>
+              <TableCell className="text-right">{element.amount}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

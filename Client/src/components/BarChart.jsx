@@ -27,8 +27,6 @@ import {
 export const description = "A bar chart with a custom label";
 
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
   { month: "March", desktop: 237, mobile: 120 },
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
@@ -49,7 +47,7 @@ const chartConfig = {
   },
 };
 
-export function ChartBarLabelCustom() {
+export function ChartBarLabelCustom({ data }) {
   return (
     <Card className="bg-[#FAA307] text-[#03071E]">
       <CardHeader>

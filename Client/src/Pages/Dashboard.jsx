@@ -55,7 +55,7 @@ const Dashboard = () => {
         </div>
         <div className="flex col-span-1 sm:col-span-2">
           <div className="flex-1">
-            <ChartBarLabelCustom />
+            <ChartBarLabelCustom data={data} />
           </div>
         </div>
         <div className="flex flex-1 col-span-1 sm:col-span-2 lg:col-span-4">
