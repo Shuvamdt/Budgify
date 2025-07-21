@@ -43,7 +43,6 @@ const startMonthName = startDate.toLocaleString("default", { month: "long" });
 export function ChartPieDonutActive({ data }) {
   const [totalCredit, setTotalCredit] = useState(0);
   const [totalDebit, setTotalDebit] = useState(0);
-  console.log(data);
   useEffect(() => {
     let credits = 0;
     let debits = 0;
