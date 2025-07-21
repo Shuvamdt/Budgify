@@ -135,7 +135,7 @@ const chartConfig = {
   },
 };
 
-export function ChartAreaInteractive() {
+export function ChartAreaInteractive({ data }) {
   const [timeRange, setTimeRange] = useState("90d");
 
   const filteredData = chartData.filter((item) => {
@@ -244,13 +244,13 @@ export function ChartAreaInteractive() {
                 />
               }
             />
-            {/* <Area
+            <Area
               dataKey="mobile"
               type="natural"
               fill="url(#fillMobile)"
               stroke="var(--color-mobile)"
               stackId="a"
-            /> */}
+            />
             <Area
               dataKey="desktop"
               type="natural"

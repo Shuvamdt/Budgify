@@ -134,7 +134,7 @@ export function ChartBarLabelCustom({ data }) {
   return (
     <Card className="bg-[#FAA307] text-[#03071E]">
       <CardHeader>
-        <CardTitle>Bar Chart - Custom Label</CardTitle>
+        <CardTitle>Bar Chart - Debit/Credit</CardTitle>
         <CardDescription>
           <p className="text-[#E85D04]">
             {startMonthName} - {endMonthName}
@@ -154,7 +154,7 @@ export function ChartBarLabelCustom({ data }) {
               tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="credit" type="number" hide />
+            <XAxis dataKey="credit" type="number" domain={[0, 15000]} hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
@@ -171,12 +171,12 @@ export function ChartBarLabelCustom({ data }) {
               <LabelList
                 dataKey="credit"
                 position="right"
-                offset={8}
+                offset={18}
                 className="fill-[#DC2F02]"
                 fontSize={12}
               />
             </Bar>
-            <XAxis dataKey="debit" type="number" hide />
+            <XAxis dataKey="debit" type="number" domain={[0, 15000]} hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
@@ -192,7 +192,7 @@ export function ChartBarLabelCustom({ data }) {
               <LabelList
                 dataKey="debit"
                 position="right"
-                offset={8}
+                offset={18}
                 className="fill-[#6A040F]"
                 fontSize={12}
               />
@@ -201,12 +201,9 @@ export function ChartBarLabelCustom({ data }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="text-muted-foreground leading-none">
           <p className="text-[#E85D04]">
-            Showing total visitors for the last 6 months
+            Showing total debits and credits for the last 3 months
           </p>
         </div>
       </CardFooter>

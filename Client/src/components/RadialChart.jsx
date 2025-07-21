@@ -48,13 +48,17 @@ export function ChartRadialText({ data }) {
     setTotal(sum);
   }, [data]);
   const chartData = useMemo(
-    () => [{ amount: "Total", savings: total, fill: "#D00000" }],
+    () => [{ amount: "Total", savings: Math.abs(total), fill: "#D00000" }],
     [total]
   );
   return (
     <Card className="flex flex-col bg-[#FAA307] text-[#03071E]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Total Savings</CardTitle>
+        {total > 0 ? (
+          <CardTitle>Radial Chart - Total Savings</CardTitle>
+        ) : (
+          <CardTitle>Radial Chart - Total Expenses</CardTitle>
+        )}
         <CardDescription>
           <p className="text-[#E85D04]">
             {startMonthName} - {endMonthName}
@@ -97,7 +101,7 @@ export function ChartRadialText({ data }) {
                           y={viewBox.cy}
                           className="fill-[#03071E] text-3xl font-bold"
                         >
-                          ${total.toLocaleString()}
+                          {Math.abs(total).toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

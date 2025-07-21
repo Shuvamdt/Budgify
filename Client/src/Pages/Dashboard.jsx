@@ -59,7 +59,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="flex flex-1 col-span-1 sm:col-span-2 lg:col-span-4">
-          <ChartAreaInteractive />
+          <ChartAreaInteractive data={data} />
         </div>
       </div>
     </div>
