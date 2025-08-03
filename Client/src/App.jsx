@@ -9,9 +9,9 @@ import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
 
-const App = ({ signedUP }) => {
+const App = ({ signedUp }) => {
   const checker = () => {
-    if (signedUP) {
+    if (signedUp) {
       return true;
     } else {
       return false;
@@ -41,7 +41,7 @@ const App = ({ signedUP }) => {
               path="/my-account"
               element={checker() ? <MyAccount /> : <SignUp />}
             />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup" element={<SignUp check={signedUp} />} />
           </Routes>
         </div>
         <Footer />
