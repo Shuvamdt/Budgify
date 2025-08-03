@@ -9,7 +9,14 @@ import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
 
-const App = () => {
+const App = ({ signedUP }) => {
+  const checker = () => {
+    if (signedUP) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <div className="overflow-y-auto min-h-screen">
       <BrowserRouter>
@@ -21,10 +28,19 @@ const App = () => {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/expenses" element={<Expenses />} />
+            <Route
+              path="/dashboard"
+              element={checker() ? <Dashboard /> : <SignUp />}
+            />
+            <Route
+              path="/expenses"
+              element={checker() ? <Expenses /> : <SignUp />}
+            />
             <Route path="/about" element={<About />} />
-            <Route path="/my-account" element={<MyAccount />} />
+            <Route
+              path="/my-account"
+              element={checker() ? <MyAccount /> : <SignUp />}
+            />
             <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>

@@ -101,7 +101,7 @@ export function ChartRadialText({ data }) {
                           y={viewBox.cy}
                           className="fill-[#03071E] text-3xl font-bold"
                         >
-                          {Math.abs(total).toLocaleString()}
+                          ${Math.abs(total).toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
