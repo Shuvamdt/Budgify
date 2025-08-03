@@ -164,14 +164,14 @@ export function ChartBarLabelCustom({ data }) {
               <LabelList
                 dataKey="month"
                 position="insideLeft"
-                offset={8}
+                offset={6}
                 className="fill-[#DC2F02]"
                 fontSize={12}
               />
               <LabelList
                 dataKey="credit"
                 position="right"
-                offset={18}
+                offset={30}
                 className="fill-[#DC2F02]"
                 fontSize={12}
               />

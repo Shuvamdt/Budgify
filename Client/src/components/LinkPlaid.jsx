@@ -7,7 +7,9 @@ const LinkPlaid = () => {
   useEffect(() => {
     async function createLinkToken() {
       const response = await axios.post(
-        "http://localhost:3000/create_link_token"
+        "http://localhost:3000/create_link_token",
+        null,
+        { withCredentials: true }
       );
       setLinkToken(response.data.link_token);
     }
@@ -15,9 +17,13 @@ const LinkPlaid = () => {
   }, []);
 
   const onSuccess = useCallback(async (public_token) => {
-    await axios.post("http://localhost:3000/exchange_public_token", {
-      public_token,
-    });
+    await axios.post(
+      "http://localhost:3000/exchange_public_token",
+      {
+        public_token,
+      },
+      { withCredentials: true }
+    );
 
     alert("Bank account connected! You can now fetch transactions.");
   }, []);

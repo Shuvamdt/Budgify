@@ -10,7 +10,9 @@ const API_URL = "http://localhost:3000";
 
 const fetchData = async () => {
   try {
-    const response = await axios.get(`${API_URL}/transactions`);
+    const response = await axios.get(`${API_URL}/transactions`, {
+      withCredentials: true,
+    });
     return response.data.transactions;
   } catch (error) {
     console.log("Error fetching data:", error);

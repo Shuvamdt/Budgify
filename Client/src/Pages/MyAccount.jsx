@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import LinkPlaid from "../components/LinkPlaid";
 
+const API_URL = "http://localhost:3000";
 const MyAccount = () => {
   return (
     <div className="m-5 px-4 py-2 rounded-lg border border-[#F48C06]">

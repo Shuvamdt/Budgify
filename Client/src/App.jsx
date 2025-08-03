@@ -8,42 +8,51 @@ import Expenses from "./Pages/Expenses";
 import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-const App = ({ signedUp }) => {
-  const checker = () => {
-    if (signedUp) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+const App = () => {
   return (
     <div className="overflow-y-auto min-h-screen">
       <BrowserRouter>
         <div className="background">
           <img src="bg.gif" alt="Background" className="pt-10" />
         </div>
+
         <Navbar />
+
         <div className="min-h-screen">
           <Routes>
             <Route index element={<Home />} />
             <Route path="/" element={<Home />} />
             <Route
               path="/dashboard"
-              element={checker() ? <Dashboard /> : <SignUp />}
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/expenses"
-              element={checker() ? <Expenses /> : <SignUp />}
+              element={
+                <ProtectedRoute>
+                  <Expenses />
+                </ProtectedRoute>
+              }
             />
             <Route path="/about" element={<About />} />
             <Route
               path="/my-account"
-              element={checker() ? <MyAccount /> : <SignUp />}
+              element={
+                <ProtectedRoute>
+                  <MyAccount />
+                </ProtectedRoute>
+              }
             />
-            <Route path="/signup" element={<SignUp check={signedUp} />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>
+
         <Footer />
       </BrowserRouter>
     </div>

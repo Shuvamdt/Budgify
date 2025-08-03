@@ -4,15 +4,15 @@ import { CardSignUp } from "../components/CardSignUp";
 
 const API_URL = "";
 
-const SignUp = ({ signedUp }) => {
+const SignUp = () => {
   const [toggleSign, setToggleSign] = useState(true);
   const changeToggleSign = () => setToggleSign(!toggleSign);
   return (
     <div className="mx-3 my-15 flex justify-center items-center font-1">
       {toggleSign ? (
-        <CardSignUp changeState={changeToggleSign} signedUp={signedUp} />
+        <CardSignUp changeState={changeToggleSign} />
       ) : (
-        <CardSignIn changeState={changeToggleSign} signedUp={signedUp} />
+        <CardSignIn changeState={changeToggleSign} />
       )}
     </div>
   );
