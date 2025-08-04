@@ -25,6 +25,7 @@ const MyAccount = () => {
   const handleSignout = async () => {
     try {
       await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
+      localStorage.removeItem("signedUp");
       window.location.href = "/signup";
     } catch (err) {
       console.error("Logout failed", err);

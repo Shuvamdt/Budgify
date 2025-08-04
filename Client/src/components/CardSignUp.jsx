@@ -12,11 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //const API_URL = "http://localhost:3000";
 const API_URL = "https://budgify-hjq2.vercel.app";
 
-export function CardSignUp(props) {
+export function CardSignUp({ setSignedUp, changeState }) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,7 +43,9 @@ export function CardSignUp(props) {
 
       const msg = res.data;
       alert(msg);
-      window.location.href = "/my-account";
+      localStorage.setItem("signedUp", "true");
+      setSignedUp(true);
+      navigate("/my-account");
     } catch (err) {
       console.error(err);
       alert("Registration failed!");
@@ -57,7 +61,7 @@ export function CardSignUp(props) {
           Enter your email below to create your account
         </CardDescription>
         <CardAction>
-          <Button onClick={props.changeState} variant="link">
+          <Button onClick={changeState} variant="link">
             Sign In
           </Button>
         </CardAction>

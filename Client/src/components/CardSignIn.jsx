@@ -13,11 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 //const API_URL = "http://localhost:3000";
 const API_URL = "https://budgify-hjq2.vercel.app";
 
-export function CardSignIn(props) {
+export function CardSignIn({ setSignedUp, changeState }) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,7 +45,9 @@ export function CardSignIn(props) {
         }
       );
       alert("Login successful!");
-      window.location.href = "/my-account";
+      localStorage.setItem("signedUp", "true");
+      setSignedUp(true);
+      navigate("/my-account");
     } catch (err) {
       console.error(err);
       alert("Login failed!");
@@ -58,7 +62,7 @@ export function CardSignIn(props) {
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
-          <Button onClick={props.changeState} variant="link">
+          <Button onClick={changeState} variant="link">
             Sign Up
           </Button>
         </CardAction>
