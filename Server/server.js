@@ -15,7 +15,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://budgify-blue.vercel.app",
-  "https://budgify-luva.vercel.app",
+  "https://budgify-hjq2.vercel.app",
 ];
 
 app.use(
