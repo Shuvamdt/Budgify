@@ -73,17 +73,6 @@ try {
   process.exit(1);
 }
 
-app.get("/", (req, res) => {
-  res.json({ message: "It works!" });
-});
-app.get("/me", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ user: { email: req.user.email } });
-  } else {
-    res.status(401).json({ error: "Unauthorized" });
-  }
-});
-
 app.get("/get-account-info", (req, res) => {
   if (req.isAuthenticated()) {
     res.json({ email: req.user.email });

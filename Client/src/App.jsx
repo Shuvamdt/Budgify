@@ -8,7 +8,6 @@ import Expenses from "./Pages/Expenses";
 import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -24,31 +23,10 @@ const App = () => {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/" element={<Home />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/expenses"
-              element={
-                <ProtectedRoute>
-                  <Expenses />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/expenses" element={<Expenses />} />
             <Route path="/about" element={<About />} />
-            <Route
-              path="/my-account"
-              element={
-                <ProtectedRoute>
-                  <MyAccount />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/my-account" element={<MyAccount />} />
             <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>
