@@ -46,7 +46,7 @@ export function CardSignUp(props) {
       console.error(err);
       alert("Registration failed!");
     }
-    setFormData({ email: "", password: "" });
+    setFormData({ email: "", password: "", confirmPassword: "" });
   };
 
   return (
