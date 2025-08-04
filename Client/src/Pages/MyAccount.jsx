@@ -3,12 +3,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import LinkPlaid from "../components/LinkPlaid";
 import axios from "axios";
+import loadingAnimation from "../animations/loading.json";
+import Lottie from "lottie-react";
+import { useNavigate } from "react-router-dom";
 
 //const API_URL = "http://localhost:3000";
 const API_URL = "https://budgify-hjq2.vercel.app";
 
 const MyAccount = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
   async function fetch() {
     try {
       const userEmail = await axios.get(`${API_URL}/get-account-info`, {
@@ -19,18 +24,34 @@ const MyAccount = () => {
       console.log(err);
     }
   }
-  useEffect(() => {
-    fetch();
-  }, []);
   const handleSignout = async () => {
     try {
       await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
       localStorage.removeItem("signedUp");
-      window.location.href = "/signup";
+      navigate("/signup");
     } catch (err) {
       console.error("Logout failed", err);
     }
   };
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      await fetch();
+      setLoading(false);
+    };
+    loadData();
+  }, []);
+  if (loading) {
+    return (
+      <div className="flex min-h-screen w-full h-full justify-center items-center">
+        <Lottie
+          animationData={loadingAnimation}
+          loop={true}
+          style={{ width: 200, height: 200 }}
+        />
+      </div>
+    );
+  }
   return (
     <div className="m-5 px-4 py-2 rounded-lg border border-[#F48C06]">
       <div className="flex flex-col sm:flex-row items-center">
