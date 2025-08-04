@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import LinkPlaid from "../components/LinkPlaid";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+const API_URL = "https://budgify-luva.vercel.app";
+
 const MyAccount = () => {
   const [email, setEmail] = useState("");
   async function fetch() {

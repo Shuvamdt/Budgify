@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { CardSignIn } from "../components/CardSignIn";
 import { CardSignUp } from "../components/CardSignUp";
 
-const API_URL = "";
-
 const SignUp = () => {
   const [toggleSign, setToggleSign] = useState(true);
   const changeToggleSign = () => setToggleSign(!toggleSign);

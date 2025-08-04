@@ -6,7 +6,8 @@ import { ChartRadialText } from "../components/RadialChart";
 import axios from "axios";
 import loadingAnimation from "../animations/loading.json";
 import Lottie from "lottie-react";
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+const API_URL = "https://budgify-luva.vercel.app";
 
 const fetchData = async () => {
   try {

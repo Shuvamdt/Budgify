@@ -2,15 +2,16 @@ import React, { useEffect, useCallback, useState } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import axios from "axios";
 
+// const API_URL = "http://localhost:3000"
+const API_URL = "https://budgify-luva.vercel.app";
+
 const LinkPlaid = () => {
   const [linkToken, setLinkToken] = useState(null);
   useEffect(() => {
     async function createLinkToken() {
-      const response = await axios.post(
-        "http://localhost:3000/create_link_token",
-        null,
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${API_URL}/create_link_token`, null, {
+        withCredentials: true,
+      });
       setLinkToken(response.data.link_token);
     }
     createLinkToken();
@@ -18,7 +19,7 @@ const LinkPlaid = () => {
 
   const onSuccess = useCallback(async (public_token) => {
     await axios.post(
-      "http://localhost:3000/exchange_public_token",
+      `${API_URL}/exchange_public_token`,
       {
         public_token,
       },
