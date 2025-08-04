@@ -15,22 +15,22 @@ const Features = () => {
                 alt="icon"
                 className="float-left mt-2 mr-3 h-8 w-8 rounded-full bg-[#D00000] px-1 py-1"
               />
-              Optimized real-time dashboard, which helps you to track your
-              progress accurately.
+              Optimized dashboard, which helps you to track your transactions
+              accurately.
             </p>
           </div>
           <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
             <p className="px-1">
               <img
-                src="feature-2.png"
+                src="Plaid.png"
                 alt="icon"
                 className="float-left mt-2 mr-3 h-8 w-8 rounded-full bg-[#D00000] px-1 py-1"
               />
-              Real-time updates from your Google Pay account help you to stay on
+              Real-time updates from your Plaid account help you to stay on
               track.
             </p>
           </div>
-          <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
+          {/* <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
             <p className="px-1">
               <img
                 src="feature-3.png"
@@ -40,7 +40,7 @@ const Features = () => {
               If you run out of budget, email alerts will alert you to stay
               updated.
             </p>
-          </div>
+          </div> */}
           <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
             <p className="px-1">
               <img
@@ -48,11 +48,11 @@ const Features = () => {
                 alt="icon"
                 className="float-left mt-2 mr-3 h-8 w-8 rounded-full bg-[#D00000] px-1 py-1"
               />
-              Additionally, you can debit or credit your account manually so
-              that you don't need to stay dependent on Google Pay.
+              Advanced dashboard management system helps you visualize your
+              transactions, to get a better idea of your transactions.
             </p>
           </div>
-          <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
+          {/* <div className="px-5 pt-4 pb-4 rounded-2xl bg-[#FAA307]">
             <p className="px-1">
               <img
                 src="feature-5.png"
@@ -63,8 +63,8 @@ const Features = () => {
               progress for the month, and manual transactions will be
               highlighted.
             </p>
-          </div>
-          <div className="px-5 pt-5 pb-4 rounded-2xl bg-[#FAA307]">
+          </div> */}
+          {/* <div className="px-5 pt-5 pb-4 rounded-2xl bg-[#FAA307]">
             <p className="px-1">
               <img
                 src="feature-6.png"
@@ -75,7 +75,7 @@ const Features = () => {
               change or get an updated report for any mistakes that happen from
               your end.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

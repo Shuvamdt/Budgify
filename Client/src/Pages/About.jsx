@@ -10,24 +10,11 @@ const About = () => {
           stress-free money management. Budgify is designed to help you track
           your spending and savings in real time with an intuitive, optimized
           dashboard that provides a clear overview of your financial health. By
-          integrating seamlessly with your Google Pay account, Budgify
-          automatically fetches your latest transactions, ensuring your budget
-          always reflects your actual expenses and income accurately. To keep
-          you on track, Budgify sends instant email alerts whenever you exceed
-          your budget limits, empowering you to make timely adjustments and
-          avoid overspending. We understand that not all transactions happen
-          online, so Budgify makes it easy for you to manually credit or debit
-          amounts — giving you complete control without relying solely on
-          automatic updates. At the end of every month, you’ll receive a
-          comprehensive progress report directly in your inbox. This detailed
-          summary highlights both your automatic and manual transactions,
-          helping you evaluate your spending habits and plan ahead more
-          effectively. Please note that once a monthly report is sent by
-          Budgify, it becomes a permanent record — no further edits or updates
-          will be possible, encouraging you to review your entries carefully
-          throughout the month. Take charge of your finances with confidence and
-          transparency — let Budgify be your trusted partner in achieving your
-          financial goals.
+          integrating seamlessly with your Plaid account, Budgify automatically
+          fetches your latest transactions, ensuring your budget always reflects
+          your actual expenses and income accurately. To keep you on track, Take
+          charge of your finances with confidence and transparency — let Budgify
+          be your trusted partner in achieving your financial goals.
         </p>
       </div>
     </div>
