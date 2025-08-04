@@ -36,6 +36,8 @@ const port = process.env.PORT || 3000;
 const saltRounds = 10;
 let accessToken = "";
 
+app.set("trust proxy", 1);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

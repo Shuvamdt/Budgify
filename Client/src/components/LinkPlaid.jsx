@@ -9,7 +9,7 @@ const LinkPlaid = () => {
   const [linkToken, setLinkToken] = useState(null);
   useEffect(() => {
     async function createLinkToken() {
-      const response = await axios.post(`${API_URL}/create_link_token`, null, {
+      const response = await axios.post(`${API_URL}/create_link_token`, {
         withCredentials: true,
       });
       setLinkToken(response.data.link_token);
