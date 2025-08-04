@@ -44,8 +44,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,
-      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -100,9 +99,12 @@ app.post("/register", async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          const result = await database.collection("users").insertOne({
+          const user = await database.collection("users").insertOne({
             email: email,
             password: hash,
+          });
+          req.login(user, (err) => {
+            console.log(err);
           });
           res.send("User registered successfully");
         }
@@ -154,18 +156,26 @@ app.post("/exchange_public_token", async (req, res) => {
   }
   const publicToken = req.body.public_token;
   try {
-    const response = await client.itemPublicTokenExchange({
-      public_token: publicToken,
-    });
-    accessToken = response.data.access_token;
-    const database = db_client.db("Budgify");
-    await database
+    const user = await database
       .collection("users")
-      .updateOne(
-        { email: req.user.email },
-        { $set: { accessToken: accessToken } }
-      );
-    res.json({ access_token: accessToken });
+      .findOne({ email: req.user.email });
+    if (!user.accessToken) {
+      const response = await client.itemPublicTokenExchange({
+        public_token: publicToken,
+      });
+      accessToken = response.data.access_token;
+      const database = db_client.db("Budgify");
+      await database
+        .collection("users")
+        .updateOne(
+          { email: req.user.email },
+          { $set: { accessToken: accessToken } }
+        );
+      res.json({ access_token: accessToken });
+    } else {
+      accessToken = user.accessToken;
+      res.json({ access_token: accessToken });
+    }
   } catch (error) {
     console.error("Token exchange error:", error.response.data);
     res.status(500).json({ error: error.message });
@@ -252,16 +262,8 @@ passport.use(
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
-passport.deserializeUser(async (id, cb) => {
-  try {
-    const user = await db_client
-      .db("Budgify")
-      .collection("users")
-      .findOne({ _id: new ObjectId(id) });
-    cb(null, user);
-  } catch (err) {
-    cb(err);
-  }
+passport.deserializeUser((user, cb) => {
+  cb(null, user._id);
 });
 
 app.listen(port, () => {
