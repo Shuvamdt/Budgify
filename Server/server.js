@@ -34,7 +34,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 const saltRounds = 10;
-let accessToken = "";
 
 app.set("trust proxy", 1);
 
@@ -99,12 +98,13 @@ app.post("/register", async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          const user = await database.collection("users").insertOne({
+          await database.collection("users").insertOne({
             email: email,
             password: hash,
           });
-          req.login(user, (err) => {
-            console.log(err);
+          const newUser = await database.collection("users").findOne({ email });
+          req.login(newUser, (err) => {
+            if (err) console.log(err);
           });
           res.send("User registered successfully");
         }
@@ -156,6 +156,7 @@ app.post("/exchange_public_token", async (req, res) => {
   }
   const publicToken = req.body.public_token;
   try {
+    const database = db_client.db("Budgify");
     const user = await database
       .collection("users")
       .findOne({ email: req.user.email });
@@ -262,8 +263,16 @@ passport.use(
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
-passport.deserializeUser((user, cb) => {
-  cb(null, user._id);
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const database = db_client.db("Budgify");
+    const user = await database
+      .collection("users")
+      .findOne({ _id: new ObjectId(id) });
+    cb(null, user);
+  } catch (err) {
+    cb(err);
+  }
 });
 
 app.listen(port, () => {
