@@ -75,6 +75,9 @@ try {
   process.exit(1);
 }
 
+app.get("/", (req, res) => {
+  res.json({ message: "It works!" });
+});
 app.get("/me", (req, res) => {
   if (req.isAuthenticated()) {
     res.json({ user: { email: req.user.email } });
