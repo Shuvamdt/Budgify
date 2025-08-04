@@ -44,8 +44,6 @@ app.use(
   })
 );
 
-app.options("/*", cors());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
