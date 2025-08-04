@@ -42,7 +42,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       secure: true,
       sameSite: "none",
@@ -128,6 +128,9 @@ app.post("/login", (req, res, next) => {
 });
 
 app.post("/create_link_token", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const response = await client.linkTokenCreate({
       user: {
@@ -146,6 +149,9 @@ app.post("/create_link_token", async (req, res) => {
 });
 
 app.post("/exchange_public_token", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   const publicToken = req.body.public_token;
   try {
     const response = await client.itemPublicTokenExchange({
@@ -167,6 +173,9 @@ app.post("/exchange_public_token", async (req, res) => {
 });
 
 app.get("/transactions", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   let accessToken;
   try {
     const database = db_client.db("Budgify");
