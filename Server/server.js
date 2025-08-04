@@ -162,6 +162,7 @@ app.post("/exchange_public_token", async (req, res) => {
     const user = await database
       .collection("users")
       .findOne({ email: req.user.email });
+    console.log(user);
     if (!user.accessToken) {
       const response = await client.itemPublicTokenExchange({
         public_token: publicToken,
