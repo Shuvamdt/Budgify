@@ -21,7 +21,7 @@ const API_URL = "https://budgify-hjq2.vercel.app";
 export function CardSignIn({ setSignedUp, changeState }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -31,13 +31,13 @@ export function CardSignIn({ setSignedUp, changeState }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
+    const { username, password } = formData;
 
     try {
       await axios.post(
         `${API_URL}/login`,
         {
-          username: email,
+          username,
           password,
         },
         {
@@ -51,8 +51,8 @@ export function CardSignIn({ setSignedUp, changeState }) {
     } catch (err) {
       console.error(err);
       alert("Login failed!");
+      setFormData({ username: "", password: "" });
     }
-    setFormData({ email: "", password: "" });
   };
   return (
     <Card className="w-full max-w-sm text-[#03071E] bg-[#F48C06]">
@@ -73,11 +73,11 @@ export function CardSignIn({ setSignedUp, changeState }) {
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
-                id="email"
+                id="username"
                 type="email"
                 placeholder="m@example.com"
                 required
-                value={formData.email}
+                value={formData.username}
                 onChange={handleChange}
               />
             </div>

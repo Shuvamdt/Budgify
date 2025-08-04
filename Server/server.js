@@ -41,11 +41,11 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "none",
-      secure: true,
+      sameSite: "lax",
+      secure: false,
     },
   })
 );
@@ -77,55 +77,68 @@ try {
 
 app.get("/get-account-info", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ email: req.user.email });
+    res.json({ email: req.user.username });
   } else {
     return res.status(401).json({ message: "Unauthorized" });
   }
 });
 
 app.post("/register", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { username, password } = req.body;
   const database = db_client.db("Budgify");
-  if (!email || !password) {
+  if (!username || !password) {
     return res.status(400).send("All fields are required");
   }
-
   try {
-    const result = await database.collection("users").findOne({ email: email });
-    if (result) {
-      res.send("User already exists! Please login with your credentials");
-    } else {
-      bcryptjs.hash(password, saltRounds, async (err, hash) => {
-        if (err) {
-          console.log(err);
-        } else {
-          await database.collection("users").insertOne({
-            email: email,
-            password: hash,
-          });
-          const newUser = await database.collection("users").findOne({ email });
-          req.login(newUser, (err) => {
-            if (err) console.log(err);
-          });
-          res.send("User registered successfully");
-        }
-      });
+    const existingUser = await database
+      .collection("users")
+      .findOne({ username });
+    if (existingUser) {
+      return res
+        .status(400)
+        .send("User already exists! Please login with your credentials");
     }
+    bcryptjs.hash(password, saltRounds, async (err, hash) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error hashing password");
+      }
+      await database.collection("users").insertOne({
+        username,
+        password: hash,
+        accessToken: "",
+      });
+      const newUser = await database.collection("users").findOne({ username });
+      req.login(newUser, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Login failed after registration");
+        }
+        return res.json({
+          message: "Login successful",
+          user: { username: newUser.username },
+        });
+      });
+    });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 });
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ error: "Invalid credentials" });
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
     req.login(user, (err) => {
       if (err) return next(err);
       return res.json({
         message: "Login successful",
-        user: { email: user.email },
+        user: { username: user.username },
       });
     });
   })(req, res, next);
@@ -161,18 +174,17 @@ app.post("/exchange_public_token", async (req, res) => {
     const database = db_client.db("Budgify");
     const user = await database
       .collection("users")
-      .findOne({ email: req.user.email });
-    console.log(user);
+      .findOne({ username: req.user.username });
     if (!user.accessToken) {
       const response = await client.itemPublicTokenExchange({
         public_token: publicToken,
       });
-      accessToken = response.data.access_token;
+      const accessToken = response.data.access_token;
       const database = db_client.db("Budgify");
       await database
         .collection("users")
         .updateOne(
-          { email: req.user.email },
+          { username: req.user.username },
           { $set: { accessToken: accessToken } }
         );
       res.json({ access_token: accessToken });
@@ -181,7 +193,7 @@ app.post("/exchange_public_token", async (req, res) => {
       res.json({ access_token: accessToken });
     }
   } catch (error) {
-    console.error("Token exchange error:", error.response.data);
+    console.error("Token exchange error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -195,7 +207,7 @@ app.get("/transactions", async (req, res) => {
     const database = db_client.db("Budgify");
     const user = await database
       .collection("users")
-      .findOne({ email: req.user.email });
+      .findOne({ username: req.user.username });
     if (!user || !user.accessToken) {
       return res.status(400).json({ error: "No access token!" });
     }
@@ -240,7 +252,7 @@ passport.use(
       const database = db_client.db("Budgify");
       const user = await database
         .collection("users")
-        .findOne({ email: username });
+        .findOne({ username: username });
       if (user) {
         const storedPassword = user.password;
         bcryptjs.compare(password, storedPassword, (err, result) => {
@@ -264,8 +276,9 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  cb(null, user._id);
+  cb(null, user._id); // only store the _id in session
 });
+
 passport.deserializeUser(async (id, cb) => {
   try {
     const database = db_client.db("Budgify");
@@ -277,7 +290,6 @@ passport.deserializeUser(async (id, cb) => {
     cb(err);
   }
 });
-
 app.listen(port, () => {
   console.log(`Server is listening to ${port}`);
 });

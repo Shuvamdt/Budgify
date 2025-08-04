@@ -20,7 +20,7 @@ const API_URL = "https://budgify-hjq2.vercel.app";
 export function CardSignUp({ setSignedUp, changeState }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -31,7 +31,7 @@ export function CardSignUp({ setSignedUp, changeState }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, confirmPassword } = formData;
+    const { username, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
@@ -51,8 +51,8 @@ export function CardSignUp({ setSignedUp, changeState }) {
     } catch (err) {
       console.error(err);
       alert("Registration failed!");
+      setFormData({ email: "", password: "", confirmPassword: "" });
     }
-    setFormData({ email: "", password: "", confirmPassword: "" });
   };
 
   return (
@@ -73,11 +73,11 @@ export function CardSignUp({ setSignedUp, changeState }) {
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
-              id="email"
+              id="username"
               type="email"
               placeholder="m@example.com"
               required
-              value={formData.email}
+              value={formData.username}
               onChange={handleChange}
             />
           </div>
