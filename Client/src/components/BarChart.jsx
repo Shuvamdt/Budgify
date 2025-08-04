@@ -82,7 +82,7 @@ export function ChartBarLabelCustom({ data }) {
       } else {
         exp2 += element.amount;
       }
-    } else {
+    } else if (currMonth == month3.getMonth()) {
       if (element.amount < 0) {
         cr3 += Math.abs(element.amount);
       } else {
@@ -91,12 +91,12 @@ export function ChartBarLabelCustom({ data }) {
     }
   });
   useEffect(() => {
-    setMonth1Exps(exp1);
-    setMonth2Exps(exp2);
-    setMonth3Exps(exp3);
-    setMonth1Credit(cr1);
-    setMonth2Credit(cr2);
-    setMonth3Credit(cr3);
+    setMonth1Exps(exp1.toFixed(2));
+    setMonth2Exps(exp2.toFixed(2));
+    setMonth3Exps(exp3.toFixed(2));
+    setMonth1Credit(cr1.toFixed(2));
+    setMonth2Credit(cr2.toFixed(2));
+    setMonth3Credit(cr3.toFixed(2));
   }, [exp1, exp2, exp3, cr1, cr2, cr3]);
   const chartData = useMemo(
     () => [
@@ -171,7 +171,7 @@ export function ChartBarLabelCustom({ data }) {
               <LabelList
                 dataKey="credit"
                 position="right"
-                offset={30}
+                offset={50}
                 className="fill-[#DC2F02]"
                 fontSize={12}
               />
@@ -185,14 +185,14 @@ export function ChartBarLabelCustom({ data }) {
               <LabelList
                 dataKey="month"
                 position="insideLeft"
-                offset={8}
+                offset={6}
                 className="fill-[#370617]"
                 fontSize={12}
               />
               <LabelList
                 dataKey="debit"
                 position="right"
-                offset={18}
+                offset={50}
                 className="fill-[#6A040F]"
                 fontSize={12}
               />

@@ -40,6 +40,7 @@ export function CardSignUp(props) {
 
       const msg = res.data;
       alert(msg);
+      window.location.href = "/my-account";
     } catch (err) {
       console.error(err);
       alert("Registration failed!");

@@ -45,7 +45,7 @@ export function ChartRadialText({ data }) {
     data.forEach((element) => {
       sum -= element.amount;
     });
-    setTotal(sum);
+    setTotal(sum.toFixed(2));
   }, [data]);
   const chartData = useMemo(
     () => [{ amount: "Total", savings: Math.abs(total), fill: "#D00000" }],

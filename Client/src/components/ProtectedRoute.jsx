@@ -4,7 +4,9 @@ import { useAuth } from "./AuthContext";
 const ProtectedRoute = ({ children }) => {
   const { user, authChecked } = useAuth();
 
-  if (!authChecked) return <div>Loading...</div>; // or a spinner
+  if (!authChecked) {
+    return <div></div>;
+  }
 
   return user ? children : <Navigate to="/signup" />;
 };

@@ -12,9 +12,20 @@ import { ObjectId } from "mongodb";
 
 dotenv.config();
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://budgify-blue.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -61,6 +72,14 @@ app.get("/me", (req, res) => {
     res.json({ user: { email: req.user.email } });
   } else {
     res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+app.get("/get-account-info", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ email: req.user.email });
+  } else {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 });
 
@@ -190,9 +209,14 @@ app.get("/transactions", async (req, res) => {
   }
 });
 
-app.get("/logout", (req, res) => {
-  req.logout(() => {
-    res.send("Logged out!");
+app.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.session.destroy((err) => {
+      if (err) return next(err);
+      res.clearCookie("connect.sid");
+      res.status(200).send("Logged out successfully.");
+    });
   });
 });
 
@@ -225,7 +249,9 @@ passport.use(
   })
 );
 
-passport.serializeUser((user, cb) => cb(null, user._id));
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
 passport.deserializeUser(async (id, cb) => {
   try {
     const user = await db_client
