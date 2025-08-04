@@ -15,7 +15,7 @@ import axios from "axios";
 import React from "react";
 
 //const API_URL = "http://localhost:3000";
-const API_URL = "https://budgify-luva.vercel.app";
+const API_URL = "https://budgify-hjq2.vercel.app";
 
 export function CardSignIn(props) {
   const [formData, setFormData] = useState({

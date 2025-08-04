@@ -5,7 +5,7 @@ import Lottie from "lottie-react";
 import axios from "axios";
 
 //const API_URL = "http://localhost:3000";
-const API_URL = "https://budgify-luva.vercel.app";
+const API_URL = "https://budgify-hjq2.vercel.app";
 
 const fetchData = async () => {
   try {

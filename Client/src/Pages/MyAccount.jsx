@@ -5,7 +5,7 @@ import LinkPlaid from "../components/LinkPlaid";
 import axios from "axios";
 
 //const API_URL = "http://localhost:3000";
-const API_URL = "https://budgify-luva.vercel.app";
+const API_URL = "https://budgify-hjq2.vercel.app";
 
 const MyAccount = () => {
   const [email, setEmail] = useState("");
