@@ -109,12 +109,12 @@ export function CardSignIn({ setSignedUp, changeState }) {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button
+        {/* <Button
           variant="outline"
           className="w-full bg-[#E85D04] border-0 hover:bg-[#FAA307]"
         >
           Login with Google
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );
