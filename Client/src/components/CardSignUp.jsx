@@ -46,7 +46,6 @@ export function CardSignUp({ setSignedUp, changeState }) {
       setSignedUp(true);
       navigate("/my-account");
     } catch (err) {
-      console.error(err);
       alert("Registration failed!");
       setFormData({ email: "", password: "", confirmPassword: "" });
     }
