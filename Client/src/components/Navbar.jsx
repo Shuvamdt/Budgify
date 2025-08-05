@@ -107,9 +107,9 @@ const Navbar = () => {
 
       <div
         ref={mobMenu}
-        className="fixed md:hidden font-1 flex flex-col px-5 w-140 sm:w-100 top-0 h-full left-160 sm:left-200 z-20 bg-[#E85D04]"
+        className="fixed md:hidden font-1 flex flex-col px-5 w-150 sm:w-100 top-0 h-full left-160 sm:left-200 z-20 bg-[#E85D04]"
       >
-        <div className="absolute top-5 right-75">
+        <div className="absolute top-5 right-105">
           <img
             src="close.png"
             alt="close icon"
