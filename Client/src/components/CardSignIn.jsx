@@ -48,7 +48,7 @@ export function CardSignIn({ setSignedUp, changeState }) {
       setSignedUp(true);
       navigate("/my-account");
     } catch (err) {
-      console.log("There is an error!");
+      console.log("There is an error!", err);
       alert("Login failed!");
       setFormData({ username: "", password: "" });
     }
