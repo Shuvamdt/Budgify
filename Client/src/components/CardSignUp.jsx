@@ -39,13 +39,15 @@ export function CardSignUp({ setSignedUp, changeState }) {
     }
 
     try {
-      await axios.post(`${API_URL}/register`, formData, {
+      const res = await axios.post(`${API_URL}/register`, formData, {
         withCredentials: true,
       });
       alert("User registered successfully!");
+      localStorage.setItem("signedUp", "true");
       setSignedUp(true);
       navigate("/my-account");
     } catch (err) {
+      console.error(err);
       alert("Registration failed!");
       setFormData({ email: "", password: "", confirmPassword: "" });
     }

@@ -10,7 +10,9 @@ import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
 
 const App = () => {
-  const [signedUp, setSignedUp] = useState(false);
+  const [signedUp, setSignedUp] = useState(() => {
+    return localStorage.getItem("signedUp") == "true";
+  });
   return (
     <div className="overflow-y-auto min-h-screen">
       <BrowserRouter>
