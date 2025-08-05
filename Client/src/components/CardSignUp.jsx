@@ -45,7 +45,6 @@ export function CardSignUp({ setSignedUp, changeState }) {
 
       const msg = res.data;
       alert(msg);
-      localStorage.setItem("signedUp", "true");
       setSignedUp(true);
       navigate("/my-account");
     } catch (err) {

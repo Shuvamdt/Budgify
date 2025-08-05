@@ -161,7 +161,7 @@ app.post("/create_link_token", async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error("Link token error:", error.response.data);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Token exchange error!" });
   }
 });
 

@@ -45,11 +45,10 @@ export function CardSignIn({ setSignedUp, changeState }) {
         }
       );
       alert("Login successful!");
-      localStorage.setItem("signedUp", "true");
       setSignedUp(true);
       navigate("/my-account");
     } catch (err) {
-      console.error(err);
+      console.log("There is an error!");
       alert("Login failed!");
       setFormData({ username: "", password: "" });
     }
