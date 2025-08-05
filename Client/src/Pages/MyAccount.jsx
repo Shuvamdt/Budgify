@@ -22,6 +22,7 @@ const MyAccount = () => {
       setEmail(userEmail.data.email);
     } catch (err) {
       console.log(err);
+      navigate("/signup");
     }
   }
   const handleSignout = async () => {
