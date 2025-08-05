@@ -112,14 +112,14 @@ app.post("/register", async (req, res) => {
         accessToken: "",
       });
       const newUser = await database.collection("users").findOne({ username });
-      req.login(newUser, (err) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send("Login failed after registration");
-        }
-        return res.json({
-          message: "Login successful",
-          user: { username: newUser.username },
+      req.session.regenerate((err) => {
+        if (err) return next(err);
+        req.login(user, (err) => {
+          if (err) return next(err);
+          return res.json({
+            message: "Login successful",
+            user: { username: user.username },
+          });
         });
       });
     });
@@ -137,11 +137,14 @@ app.post("/login", (req, res, next) => {
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    req.login(user, (err) => {
+    req.session.regenerate((err) => {
       if (err) return next(err);
-      return res.json({
-        message: "Login successful",
-        user: { username: user.username },
+      req.login(user, (err) => {
+        if (err) return next(err);
+        return res.json({
+          message: "Login successful",
+          user: { username: user.username },
+        });
       });
     });
   })(req, res, next);
