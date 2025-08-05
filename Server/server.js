@@ -9,11 +9,9 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import bcryptjs from "bcryptjs";
 import { ObjectId } from "mongodb";
-import helmet from "helmet";
 
 dotenv.config();
 const app = express();
-app.use(helmet());
 const allowedOrigins = [
   "http://localhost:5173",
   "https://budgify-blue.vercel.app",
@@ -112,14 +110,14 @@ app.post("/register", async (req, res) => {
         accessToken: "",
       });
       const newUser = await database.collection("users").findOne({ username });
-      req.session.regenerate((err) => {
-        if (err) return next(err);
-        req.login(user, (err) => {
-          if (err) return next(err);
-          return res.json({
-            message: "Login successful",
-            user: { username: user.username },
-          });
+      req.login(newUser, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Login failed after registration");
+        }
+        return res.json({
+          message: "Login successful",
+          user: { username: newUser.username },
         });
       });
     });
@@ -137,14 +135,11 @@ app.post("/login", (req, res, next) => {
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    req.session.regenerate((err) => {
+    req.login(user, (err) => {
       if (err) return next(err);
-      req.login(user, (err) => {
-        if (err) return next(err);
-        return res.json({
-          message: "Login successful",
-          user: { username: user.username },
-        });
+      return res.json({
+        message: "Login successful",
+        user: { username: user.username },
       });
     });
   })(req, res, next);
@@ -282,7 +277,7 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  cb(null, user._id); // only store the _id in session
+  cb(null, user._id);
 });
 
 passport.deserializeUser(async (id, cb) => {
