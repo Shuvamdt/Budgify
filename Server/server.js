@@ -9,9 +9,11 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import bcryptjs from "bcryptjs";
 import { ObjectId } from "mongodb";
+import helmet from "helmet";
 
 dotenv.config();
 const app = express();
+app.use(helmet());
 const allowedOrigins = [
   "http://localhost:5173",
   "https://budgify-blue.vercel.app",
@@ -188,7 +190,7 @@ app.post("/exchange_public_token", async (req, res) => {
           { username: req.user.username },
           { $set: { accessToken: accessToken } }
         );
-      res.json({ access_token: accessToken });
+      res.json({ message: "Access token stored successfully" });
     } else {
       accessToken = user.accessToken;
       res.json({ access_token: accessToken });
