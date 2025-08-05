@@ -46,7 +46,6 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: "none",
       secure: true,
-      httpOnly: true,
     },
   })
 );
@@ -162,7 +161,7 @@ app.post("/create_link_token", async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error("Link token error:", error.response.data);
-    res.status(500).json({ error: "Token exchange error!" });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -188,7 +187,7 @@ app.post("/exchange_public_token", async (req, res) => {
           { username: req.user.username },
           { $set: { accessToken: accessToken } }
         );
-      res.json({ message: "Access token stored successfully" });
+      res.json({ access_token: accessToken });
     } else {
       accessToken = user.accessToken;
       res.json({ access_token: accessToken });
@@ -277,7 +276,7 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  cb(null, user._id);
+  cb(null, user._id); // only store the _id in session
 });
 
 passport.deserializeUser(async (id, cb) => {
