@@ -214,7 +214,3 @@ All endpoints that return user or financial data require an authenticated sessio
 - Recharts, Radix UI, Lucide
 - Lottie, GSAP
 - Tailwind CSS + Vite
-
-## License
-
-ISC — see `package.json` in `Server/`. If you plan to publish, consider adding a top-level `LICENSE` file.
