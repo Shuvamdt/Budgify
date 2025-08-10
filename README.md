@@ -5,8 +5,24 @@ API: https://budgify-hjq2.vercel.app
 
 Budgify is a modern, responsive personal finance web app that helps you connect your bank (Plaid), visualize spending, and review transactions. It features email/password and Google authentication, a rich dashboard with charts, and an expenses table — all wrapped in a fast Vite + React front end and a secure Node/Express API.
 
+## Tutorial
+
+- To set up your dashboard, first log in with your email and password, or you can use your Gmail to directly log in to your account.
+- To connect the Plaid account, go to my account, click the "connect bank" button, and then follow the steps below
+  - First, this window will pop up
+    <img src="./ScreenShots/Plaid1.png">
+    **Enter this number - 415-555-0011**(sandbox specific)
+  - then, here
+    <img src="./ScreenShots/Plaid2.png">
+    **Enter 123456 as your OTP code**(sandbox specific)
+  - Then this window should pop up showing only two bank options; if not, exit and retry connecting to the bank
+    <img src="./ScreenShots/Plaid3.png">
+    **Select Tartan Bank and press confirm**(sandbox specific)
+  - Then there should be a pop-up alert after a few seconds for your bank account connection
+  - Now you can successfully access your dashboard
 
 ## Features
+
 - Secure authentication
   - Email/password (passport-local + bcrypt)
   - Google OAuth 2.0 (passport-google-oauth2)
@@ -25,8 +41,8 @@ Budgify is a modern, responsive personal finance web app that helps you connect 
   - Radix UI primitives, Lucide icons
   - Subtle animations (GSAP)
 
-
 ## Tech Stack
+
 - Client
   - React 19, Vite 6, Tailwind CSS v4
   - Recharts, Radix UI, Lucide, Lottie, GSAP
@@ -38,8 +54,8 @@ Budgify is a modern, responsive personal finance web app that helps you connect 
   - Passport (local + Google), express-session, helmet, cors
   - Plaid SDK
 
-
 ## Monorepo Structure
+
 ```
 Budgify/
 ├─ Client/          # React app (Vite)
@@ -53,14 +69,17 @@ Budgify/
    └─ server.js     # Auth, Plaid, sessions, transactions endpoints
 ```
 
-
 ## Screenshots
-- Landing/Dashboard (hero):
-  - https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-4dba87e4-1789-4fbb-a3b0-d53abe655297.png
 
+<img src="./ScreenShots/Home.png">
+<img src="./ScreenShots/Dashboard1.png">
+<img src="./ScreenShots/Dashboard2.png">
+<img src="./ScreenShots/Expenses.png">
 
 ## Getting Started (Local)
+
 ### Prerequisites
+
 - Node.js 18+ and npm
 - MongoDB connection string (Atlas or local)
 - Plaid Sandbox account (client ID/secret)
@@ -69,17 +88,21 @@ Budgify/
 > Note for local development: the server is configured for secure cookies. For localhost you may need to temporarily set `cookie.secure: false` and `sameSite: "lax"` in `Server/server.js` (session config), or run behind https.
 
 ### 1) Clone the repo
+
 ```
 git clone https://github.com/Shuvamdt/Budgify.git
 cd Budgify
 ```
 
 ### 2) Server setup
+
 ```
 cd Server
 npm i
 ```
+
 Create a `.env` in `Server/` with:
+
 ```
 PORT=3000
 SESSION_SECRET=your_strong_secret
@@ -96,18 +119,24 @@ PLAID_PRODUCTS=transactions
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
+
 Start the API:
+
 ```
 npm start
 ```
+
 The API will run at http://localhost:3000 (adjust CORS allowlist if needed in `server.js`).
 
 ### 3) Client setup
+
 ```
 cd ../Client
 npm i
 ```
+
 Point the client to your local API. In these files, switch the `API_URL` to `http://localhost:3000` (uncomment local and comment production):
+
 - `src/context/AuthContext.jsx`
 - `src/Pages/Dashboard.jsx`
 - `src/Pages/Expenses.jsx`
@@ -117,13 +146,15 @@ Point the client to your local API. In these files, switch the `API_URL` to `htt
 - `src/components/CardSignUp.jsx`
 
 Run the dev server:
+
 ```
 npm run dev
 ```
+
 The app will be available at http://localhost:5173.
 
-
 ## Using Plaid Sandbox
+
 1. Go to My Account and click “Connect Bank (Plaid Sandbox)”.
 2. When Plaid Link opens, use standard Sandbox credentials:
    - Username: `user_good`
@@ -131,8 +162,8 @@ The app will be available at http://localhost:5173.
    - MFA (if prompted): any valid test code (e.g., `1234`)
 3. After success, you can visit Dashboard/Expenses to view charts and transactions.
 
-
 ## API Endpoints (Server)
+
 Base URL (local): `http://localhost:3000`
 
 - Auth
@@ -149,8 +180,8 @@ Base URL (local): `http://localhost:3000`
 
 All endpoints that return user or financial data require an authenticated session (cookies with credentials).
 
-
 ## Deployment (Vercel)
+
 - Client
   - Framework preset: Vite
   - Build: `npm run build`
@@ -162,28 +193,28 @@ All endpoints that return user or financial data require an authenticated sessio
   - Ensure CORS allowlist in `server.js` includes your deployed client origin
   - Start command: `npm start`
 
-
 ## Security Notes
+
 - Never commit credentials or secrets.
 - Use long, random `SESSION_SECRET`.
 - Restrict CORS to known origins only.
 - Rotate Plaid and Google credentials as needed.
 
-
 ## Roadmap
+
 - Categories and budgets with monthly targets
 - Import/export (CSV) and smart search
 - Recurring expenses detection
 - Notifications (large spend, unusual activity)
 - PWA/mobile optimizations
 
-
 ## Acknowledgments
+
 - Plaid (Link + API)
 - Recharts, Radix UI, Lucide
 - Lottie, GSAP
 - Tailwind CSS + Vite
 
-
 ## License
+
 ISC — see `package.json` in `Server/`. If you plan to publish, consider adding a top-level `LICENSE` file.
