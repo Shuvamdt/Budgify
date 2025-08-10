@@ -13,13 +13,15 @@ const API_URL = "https://budgify-hjq2.vercel.app";
 const MyAccount = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [picture, setPicture] = useState("");
   const [loading, setLoading] = useState(true);
   async function fetch() {
     try {
-      const userEmail = await axios.get(`${API_URL}/get-account-info`, {
+      const user = await axios.get(`${API_URL}/get-account-info`, {
         withCredentials: true,
       });
-      setEmail(userEmail.data.email);
+      setEmail(user.data.email);
+      setPicture(user.data.picture);
     } catch (err) {
       console.log(err);
       navigate("/signup");
@@ -28,7 +30,6 @@ const MyAccount = () => {
   const handleSignout = async () => {
     try {
       await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
-      localStorage.removeItem("signedUp");
       navigate("/signup");
     } catch (err) {
       console.error("Logout failed", err);
@@ -42,6 +43,11 @@ const MyAccount = () => {
     };
     loadData();
   }, []);
+  useEffect(() => {
+    if (picture) {
+      console.log("Updated picture:", picture);
+    }
+  }, [picture]);
   if (loading) {
     return (
       <div className="flex min-h-screen w-full h-full justify-center items-center">
@@ -57,7 +63,11 @@ const MyAccount = () => {
     <div className="m-5 px-4 py-2 rounded-lg border border-[#F48C06]">
       <div className="flex flex-col sm:flex-row items-center">
         <Avatar className="h-50 w-50 m-3">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage
+            key={picture}
+            src={picture || "https://github.com/shadcn.png"}
+            alt="Profile"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h1 className="p-2 m-5 font-1 text-[50px]">{email.split("@")[0]}</h1>

@@ -9,7 +9,10 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import bcryptjs from "bcryptjs";
 import { ObjectId } from "mongodb";
+import GoogleStrategy from "passport-google-oauth2";
 
+const FRONT_END_URL = "https://budgify-blue.vercel.app";
+const API_URL = "https://budgify-hjq2.vercel.app";
 dotenv.config();
 const app = express();
 const allowedOrigins = [
@@ -77,7 +80,8 @@ try {
 
 app.get("/get-account-info", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ email: req.user.username });
+    res.json({ email: req.user.username, picture: req.user.profilePicture });
+    console.log(req.user.profilePicture);
   } else {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -143,6 +147,21 @@ app.post("/login", (req, res, next) => {
     });
   })(req, res, next);
 });
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+app.get(
+  "/auth/google/dashboard",
+  passport.authenticate("google", {
+    successRedirect: `${FRONT_END_URL}/dashboard`,
+    failureRedirect: `${FRONT_END_URL}/signup`,
+  })
+);
 
 app.post("/create_link_token", async (req, res) => {
   if (!req.isAuthenticated()) {
@@ -275,8 +294,44 @@ passport.use(
   })
 );
 
+passport.use(
+  "google",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${API_URL}/auth/google/dashboard`,
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      try {
+        const database = db_client.db("Budgify");
+        const result = await database
+          .collection("users")
+          .findOne({ username: profile.email });
+        if (result) {
+          cb(null, result);
+        } else {
+          await database.collection("users").insertOne({
+            username: profile.email,
+            password: "google",
+            accessToken: "",
+            profilePicture: profile.picture,
+          });
+          const newUser = await database
+            .collection("users")
+            .findOne({ username: profile.email });
+          cb(null, newUser);
+        }
+      } catch (error) {
+        cb(error);
+      }
+    }
+  )
+);
+
 passport.serializeUser((user, cb) => {
-  cb(null, user._id); // only store the _id in session
+  cb(null, user._id);
 });
 
 passport.deserializeUser(async (id, cb) => {

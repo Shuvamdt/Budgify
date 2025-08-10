@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Navbar from "./components/Navbar";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import Footer from "./components/Footer";
 import Dashboard from "./Pages/Dashboard";
@@ -8,11 +8,15 @@ import Expenses from "./Pages/Expenses";
 import About from "./Pages/About";
 import MyAccount from "./Pages/MyAccount";
 import SignUp from "./Pages/SignUp";
+import { useAuth } from "./context/AuthContext";
 
 const App = () => {
-  const [signedUp, setSignedUp] = useState(() => {
-    return localStorage.getItem("signedUp") == "true";
-  });
+  const { isLoggedIn, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="flex min-h-screen w-full h-full justify-center items-center"></div>
+    );
+  }
   return (
     <div className="overflow-y-auto min-h-screen">
       <BrowserRouter>
@@ -26,27 +30,18 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route
               path="/dashboard"
-              element={
-                signedUp ? <Dashboard /> : <SignUp signedUpFunc={setSignedUp} />
-              }
+              element={isLoggedIn ? <Dashboard /> : <SignUp />}
             />
             <Route
               path="/expenses"
-              element={
-                signedUp ? <Expenses /> : <SignUp signedUpFunc={setSignedUp} />
-              }
+              element={isLoggedIn ? <Expenses /> : <SignUp />}
             />
             <Route path="/about" element={<About />} />
             <Route
               path="/my-account"
-              element={
-                signedUp ? <MyAccount /> : <SignUp signedUpFunc={setSignedUp} />
-              }
+              element={isLoggedIn ? <MyAccount /> : <SignUp />}
             />
-            <Route
-              path="/signup"
-              element={<SignUp signedUpFunc={setSignedUp} />}
-            />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>
         <Footer />

@@ -16,8 +16,9 @@ import { useNavigate } from "react-router-dom";
 
 //const API_URL = "http://localhost:3000";
 const API_URL = "https://budgify-hjq2.vercel.app";
+const googleURL = `${API_URL}/auth/google`;
 
-export function CardSignUp({ setSignedUp, changeState }) {
+export function CardSignUp({ changeState }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -43,12 +44,10 @@ export function CardSignUp({ setSignedUp, changeState }) {
         withCredentials: true,
       });
       alert("User registered successfully!");
-      localStorage.setItem("signedUp", "true");
-      setSignedUp(true);
       navigate("/my-account");
     } catch (err) {
       console.error(err);
-      alert("Registration failed!");
+      alert("Registration failed!", err);
       setFormData({ email: "", password: "", confirmPassword: "" });
     }
   };
@@ -108,12 +107,14 @@ export function CardSignUp({ setSignedUp, changeState }) {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        {/* <Button
-          variant="outline"
-          className="w-full bg-[#E85D04] border-0 hover:bg-[#FAA307]"
-        >
-          Sign up with Google
-        </Button> */}
+        <a href={googleURL}>
+          <Button
+            variant="outline"
+            className="w-full bg-[#E85D04] border-0 hover:bg-[#FAA307]"
+          >
+            Sign up with Google
+          </Button>
+        </a>
       </CardFooter>
     </Card>
   );
